@@ -23,33 +23,30 @@
  *
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LaneEvent {
 
 	private Party p;
-	int frame;
 	int ball;
 	Bowler bowler;
-	int[][] cumulScore;
-	HashMap score;
+	HashMap<Bowler, ArrayList<Frame>> currentScores;
 	int index;
 	int frameNum;
-	int[] curScores;
+
 	boolean mechProb;
 	
-	public LaneEvent( Party pty, int theIndex, Bowler theBowler, int[][] theCumulScore, HashMap theScore, int theFrameNum, int[] theCurScores, int theBall, boolean mechProblem) {
+	public LaneEvent(Party pty, int theIndex, Bowler theBowler, int theFrameNum, int theBall, HashMap<Bowler, ArrayList<Frame>> currentScores, boolean mechProblem) {
 		p = pty;
 		index = theIndex;
 		bowler = theBowler;
-		cumulScore = theCumulScore;
-		score = theScore;
-		curScores = theCurScores;
+		this.currentScores = currentScores;
 		frameNum = theFrameNum;
 		ball = theBall;	
 		mechProb = mechProblem;
 	}
-	
+
 	public boolean isMechanicalProblem() {
 		return mechProb;
 	}
@@ -58,29 +55,16 @@ public class LaneEvent {
 		return frameNum;
 	}
 	
-	public HashMap getScore( ) {
-		return score;
-	}
-
-
-	public int[] getCurScores(){ 
-		return curScores;
+	public HashMap<Bowler, ArrayList<Frame>> getScore( ) {
+		return currentScores;
 	}
 	
 	public int getIndex() {
 		return index;
 	}
 
-	public int getFrame( ) {
-		return frame;
-	}
-
 	public int getBall( ) {
 		return ball;
-	}
-	
-	public int[][] getCumulScore(){
-		return cumulScore;
 	}
 
 	public Party getParty() {
