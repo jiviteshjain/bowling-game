@@ -6,6 +6,8 @@
  * Window>Preferences>Java>Code Generation.
  */
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
@@ -13,15 +15,29 @@ public class ScoreHistoryFile {
 
 	private static String SCOREHISTORY_DAT = "SCOREHISTORY.DAT";
 
-	public static void addScore(String nick, String date, String score)
+	private static void _addScore(String nick, Date date, int score)
 		throws IOException, FileNotFoundException {
-
-		String data = nick + "\t" + date + "\t" + score + "\n";
+		String s = String.valueOf(score);
+		String d = formatDate(date);
+		String data = nick + "\t" + d + "\t" + s + "\n";
 
 		RandomAccessFile out = new RandomAccessFile(SCOREHISTORY_DAT, "rw");
 		out.skipBytes((int) out.length());
 		out.writeBytes(data);
 		out.close();
+	}
+
+	public static void addScore(String nick, Date date, int score) {
+		try{
+			_addScore(nick, date, score);
+		} catch (Exception e) {
+			System.err.println("Exception in addScore. "+ e );
+		}
+	}
+
+	private static String formatDate(Date d) {
+		Format f = new SimpleDateFormat("HH:mm MM/dd/yyyy");
+		return f.format(d);
 	}
 
 	public static Vector getScores(String nick)
