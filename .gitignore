@@ -30,3 +30,6 @@ codemr/
 
 #VS Code
 .vscode/
+
+# Data Files
+*.DAT
