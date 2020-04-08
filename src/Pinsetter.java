@@ -71,7 +71,6 @@
  */
 
 import java.util.*;
-import java.lang.Boolean;
 
 public class Pinsetter {
 
@@ -128,6 +127,22 @@ public class Pinsetter {
 	 * @pre none
 	 * @post pins may have been knocked down and the thrownumber has been incremented
 	 */
+	public void checkfoul(double pinluck){
+		if (pinluck <= .04){
+			foul = true;
+		}
+	}
+	public void checkpinfall(double skill,double pinluck,int i){
+		if ( (skill + pinluck) > .833 ){
+			pins[i] = false;
+		}
+	}
+	public int checkcount(int count,int i){
+		if (!pins[i]) {		// this pin just knocked down
+			count++;
+		}
+		return count;
+	}
 	public void ballThrown() {	// simulated event of ball hits sensor
 		int count = 0;
 		foul = false;
@@ -135,15 +150,9 @@ public class Pinsetter {
 		for (int i=0; i <= 9; i++) {
 			if (pins[i]) {
 				double pinluck = rnd.nextDouble();
-				if (pinluck <= .04){ 
-					foul = true;
-				}
-				if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
-					pins[i] = false;
-				} 
-				if (!pins[i]) {		// this pin just knocked down
-					count++;
-				}
+				checkfoul(pinluck);
+				checkpinfall(skill,pinluck,i);
+				count=checkcount(count,i);
 			}
 		}
 

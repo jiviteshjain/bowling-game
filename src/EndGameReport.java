@@ -13,7 +13,6 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 
 import java.util.*;
-import java.text.*;
 
 public class EndGameReport implements ActionListener, ListSelectionListener {
 
@@ -63,7 +62,7 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 1));
 
-		Insets buttonMargin = new Insets(4, 4, 4, 4);
+		new Insets(4, 4, 4, 4);
 
 		printButton = new JButton("Print Report");
 		JPanel printButtonPanel = new JPanel();
@@ -90,13 +89,15 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 
 		// Center Window on Screen
 		Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-		win.setLocation(
-			((screenSize.width) / 2) - ((win.getSize().width) / 2),
-			((screenSize.height) / 2) - ((win.getSize().height) / 2));
+		int val1=getval(screenSize.width,win.getSize().width);
+		int val2=getval(screenSize.height,win.getSize().height);
+		win.setLocation(val1,val2);
 		win.show();
 
 	}
-
+	public int getval(int a,int b){
+		return (a-b)/2;
+	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(printButton)) {		
 			//Add selected to the vector.

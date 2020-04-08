@@ -40,7 +40,24 @@ public class Bowler {
         return nickName;  
 
     }
-
+	public boolean checkvalue_1(boolean retval, String temp){
+		if(!(nickName.equals(temp))){
+			retval=false	;
+		}
+		return retval;
+	}
+	public boolean checkvalue_2(boolean retval,String temp){
+		if(!(fullName.equals(temp))){
+			retval=false	;
+		}
+		return retval;
+	}
+	public boolean checkvalue_3(boolean retval,String temp){
+		if(!(email.equals(temp))){
+			retval=false	;
+		}
+		return retval;
+	}
 	public String getFullName ( ) {
 			return fullName;
 	}
@@ -55,15 +72,9 @@ public class Bowler {
 	
 	public boolean equals ( Bowler b) {
 		boolean retval = true;
-		if ( !(nickName.equals(b.getNickName())) ) {
-				retval = false;
-		}
-		if ( !(fullName.equals(b.getFullName())) ) {
-				retval = false;
-		}	
-		if ( !(email.equals(b.getEmail())) ) {
-				retval = false;
-		}
+		retval=checkvalue_1(retval,b.getNickName());
+		retval=checkvalue_2(retval,b.getFullName());
+		retval=checkvalue_3(retval,b.getEmail());
 		return retval;
 	}
 }

@@ -60,7 +60,7 @@ class ControlDesk extends Thread {
     /**
      * Constructor for the ControlDesk class
      *
-     * @param numlanes	the numbler of lanes to be represented
+     * @paramnumLanes	the numbler of lanes to be represented
      *
      */
 
@@ -113,12 +113,18 @@ class ControlDesk extends Thread {
 			patron = BowlerFile.getBowlerInfo(nickName);
 
 		} catch (FileNotFoundException e) {
-			System.err.println("Error..." + e);
+			String val=   "e";
+			showerror(val);
 		} catch (IOException e) {
-			System.err.println("Error..." + e);
+			String val=   "e";
+			showerror(val);
 		}
 
 		return patron;
+	}
+	public void showerror(String e){
+					System.err.println("Error ......"+e);
+
 	}
 
     /**
@@ -132,7 +138,7 @@ class ControlDesk extends Thread {
 		while (it.hasNext() && partyQueue.hasMoreElements()) {
 			Lane curLane = (Lane) it.next();
 
-			if (curLane.isPartyAssigned() == false) {
+			if (!curLane.isPartyAssigned()) {
 				System.out.println("ok... assigning this party");
 				curLane.assignParty(((Party) partyQueue.next()));
 			}

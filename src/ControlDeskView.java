@@ -17,7 +17,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.*;
 
 import java.util.*;
 
@@ -129,12 +128,16 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
 		// Center Window on Screen
 		Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-		win.setLocation(
-			((screenSize.width) / 2) - ((win.getSize().width) / 2),
-			((screenSize.height) / 2) - ((win.getSize().height) / 2));
+		int val1=getval(screenSize.width,win.getSize().width);
+		int val2=getval(screenSize.height,win.getSize().height);
+		win.setLocation(val1,val2);
 		win.show();
 
 	}
+	public int getval(int a,int b){
+		return (a-b)/2;
+	}
+
 
 	/**
 	 * Handler for actionEvents
@@ -145,7 +148,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(addParty)) {
-			AddPartyView addPartyWin = new AddPartyView(this, maxMembers);
+			new AddPartyView(this, maxMembers);
 		}
 		if (e.getSource().equals(assign)) {
 			controlDesk.assignLane();
