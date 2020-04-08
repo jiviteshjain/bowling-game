@@ -160,42 +160,61 @@ public class LaneView implements LaneObserver, ActionListener {
 
 			}
 
-			int[][] lescores = le.getCumulScore();
-			for (int k = 0; k < numBowlers; k++) {
-				for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-					if (lescores[k][i] != 0)
-						scoreLabel[k][i].setText(
-							(new Integer(lescores[k][i])).toString());
-				}
-				for (int i = 0; i < 21; i++) {
-					if (((int[]) ((HashMap) le.getScore())
-						.get(bowlers.get(k)))[i]
-						!= -1)
-						if (((int[]) ((HashMap) le.getScore())
-							.get(bowlers.get(k)))[i]
-							== 10
-							&& (i % 2 == 0 || i == 19))
-							ballLabel[k][i].setText("X");
-						else if (
-							i > 0
-								&& ((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]
-									+ ((int[]) ((HashMap) le.getScore())
-										.get(bowlers.get(k)))[i
-									- 1]
-									== 10
-								&& i % 2 == 1)
-							ballLabel[k][i].setText("/");
-						else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
-							
-							ballLabel[k][i].setText("F");
-						} else
-							ballLabel[k][i].setText(
-								(new Integer(((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]))
-									.toString());
+			HashMap<Bowler, ArrayList<Frame>> allScores = le.getScore();
+			for (int b = 0; b < numBowlers; b++) {
+				Bowler bowler = (Bowler) bowlers.get(b);
+				ArrayList<Frame> bowlerScores = allScores.get(bowler);
+				for (int f = 0; f < le.getFrameNum(); f++) {
+					Frame frame = bowlerScores.get(f);
+					scoreLabel[b][f].setText(String.valueOf(frame.score));
+					if (frame.isStrike()) {
+						ballLabel[b][2*f].setText("X");
+					} else if (frame.isSpare()) {
+						ballLabel[b][2*f].setText(String.valueOf(frame.thro[0]));
+						ballLabel[b][2*f+1].setText("/");
+					} else {
+						ballLabel[b][2*f].setText(String.valueOf(frame.thro[0]));
+						ballLabel[b][2*f + 1].setText(String.valueOf(frame.thro[1]));
+					}
+
 				}
 			}
+
+//			for (int k = 0; k < numBowlers; k++) {
+//				for (int i = 0; i <= le.getFrameNum() - 1; i++) {
+//					if (lescores[k][i] != 0)
+//						scoreLabel[k][i].setText(
+//							(new Integer(lescores[k][i])).toString());
+//				}
+//				for (int i = 0; i < 21; i++) {
+//					if (((int[]) ((HashMap) le.getScore())
+//						.get(bowlers.get(k)))[i]
+//						!= -1)
+//						if (((int[]) ((HashMap) le.getScore())
+//							.get(bowlers.get(k)))[i]
+//							== 10
+//							&& (i % 2 == 0 || i == 19))
+//							ballLabel[k][i].setText("X");
+//						else if (
+//							i > 0
+//								&& ((int[]) ((HashMap) le.getScore())
+//									.get(bowlers.get(k)))[i]
+//									+ ((int[]) ((HashMap) le.getScore())
+//										.get(bowlers.get(k)))[i
+//									- 1]
+//									== 10
+//								&& i % 2 == 1)
+//							ballLabel[k][i].setText("/");
+//						else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
+//
+//							ballLabel[k][i].setText("F");
+//						} else
+//							ballLabel[k][i].setText(
+//								(new Integer(((int[]) ((HashMap) le.getScore())
+//									.get(bowlers.get(k)))[i]))
+//									.toString());
+//				}
+//			}
 
 		}
 	}

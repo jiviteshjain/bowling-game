@@ -4,46 +4,13 @@ import java.util.Iterator;
 
 public class ScoreBoard {
 
-    private class Frame {
-        public int[] thro;
-        private boolean isSpare;
-        private boolean isStrike;
-        public int score;
-
-        public Frame() {
-            thro = new int[2];
-            thro[0] = 0;
-            thro[1] = 0;
-            isSpare = false;
-            isStrike = false;
-            score = 0;
-        }
-
-        public void setScore(int throNum, int score) {
-//            parameters known to be safe
-            thro[throNum] = score;
-            this.score += score;
-            if (thro[0] == 10) {
-                isStrike = true;
-            } else if (thro[0] + thro[1] == 10) {
-                isSpare = true;
-            }
-        }
-
-        public boolean isSpare() {
-            return isSpare;
-        }
-
-        public boolean isStrike() {
-            return isStrike;
-        }
-    }
-
     private HashMap<Bowler, ArrayList<Frame>> nowPlaying; // bowler vs list of frames for this game
     private HashMap<Bowler, ArrayList<Integer>> allGames; // bowler vs list of scores across games
     private Party party;
 
     public ScoreBoard(Party party) {
+        nowPlaying = new HashMap<Bowler, ArrayList<Frame>>();
+        allGames = new HashMap<Bowler, ArrayList<Integer>>();
         this.party = party;
         for (Iterator i = party.getMembers().iterator(); i.hasNext(); ) {
             allGames.put((Bowler) i.next(), new ArrayList<Integer>());
@@ -55,7 +22,11 @@ public class ScoreBoard {
     public void newGame() {
         nowPlaying.clear();
         for (Iterator i = party.getMembers().iterator(); i.hasNext(); ) {
-            nowPlaying.put((Bowler) i.next(), new ArrayList<Frame>(Util.FRAMES_PER_GAME));
+            ArrayList<Frame> temp = new ArrayList<Frame>(Util.FRAMES_PER_GAME);
+            for (int j = 0; j < Util.FRAMES_PER_GAME; j++) {
+                temp.add(new Frame());
+            }
+            nowPlaying.put((Bowler) i.next(), temp);
         }
     }
 
@@ -130,7 +101,7 @@ public class ScoreBoard {
     }
 
     public HashMap<Bowler, ArrayList<Frame>> getCurrentGame() {
-        HashMap<Bowler, ArrayList<Frame>> nowPlayingCopy = nowPlaying;
+        HashMap<Bowler, ArrayList<Frame>> nowPlayingCopy = Util.copyFrameHashMap(nowPlaying);
         for (Iterator i = nowPlayingCopy.entrySet().iterator(); i.hasNext(); ) {
             ArrayList<Frame> scores = (ArrayList<Frame>) ((HashMap.Entry)i.next()).getValue();
             for (int j = 1; j < scores.size(); j++) {
