@@ -169,6 +169,7 @@ public class LaneView implements LaneObserver, ActionListener {
 					scoreLabel[b][f].setText(String.valueOf(frame.score));
 					if (frame.isStrike()) {
 						ballLabel[b][2*f].setText("X");
+						ballLabel[b][2*f+1].setText("");
 					} else if (frame.isSpare()) {
 						ballLabel[b][2*f].setText(String.valueOf(frame.thro[0]));
 						ballLabel[b][2*f+1].setText("/");

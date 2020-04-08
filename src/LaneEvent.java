@@ -29,7 +29,6 @@ import java.util.HashMap;
 public class LaneEvent {
 
 	private Party p;
-	int frame;
 	int ball;
 	Bowler bowler;
 	HashMap<Bowler, ArrayList<Frame>> currentScores;
@@ -62,10 +61,6 @@ public class LaneEvent {
 	
 	public int getIndex() {
 		return index;
-	}
-
-	public int getFrame( ) {
-		return frame;
 	}
 
 	public int getBall( ) {
