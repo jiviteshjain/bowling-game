@@ -46,9 +46,21 @@ public class lowscorefile {
             }
         }
     }
+    public static void checkfile(){
+        try {
+            File myObj = new File("LOWSCORE.DAT");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
     public static void addScorelow(final String nick, final Date date, final int score) {
         try{
+            checkfile();
             _addScorelow(nick, date, score);
         } catch (final Exception e) {
             System.err.println("Exception in addScore. "+ e );
@@ -63,6 +75,7 @@ public class lowscorefile {
     public static String getScores(final String nick)
             throws IOException, FileNotFoundException {
 //        Vector scores = new Vector();
+        checkfile();
         String ss="";
         final BufferedReader readlowfile =
                 new BufferedReader(new FileReader(LOWSCORE_DAT));
@@ -82,6 +95,7 @@ public class lowscorefile {
 
     public static String getvalues()
             throws IOException, FileNotFoundException {
+        checkfile();
         String ss="";
         final BufferedReader readlowfile =
                 new BufferedReader(new FileReader(LOWSCORE_DAT));
@@ -94,6 +108,7 @@ public class lowscorefile {
     }
     public static Vector getlowscores()
             throws IOException, FileNotFoundException {
+        checkfile();
         final Vector ss= new Vector();
         final BufferedReader readlowfile =
                 new BufferedReader(new FileReader(LOWSCORE_DAT));
@@ -108,7 +123,8 @@ public class lowscorefile {
     public static Vector getlowoverallscores()
             throws IOException, FileNotFoundException {
         //        String ss="";
-         int max=10000;
+        checkfile();
+        int max=10000;
         final Vector ss= new Vector();
         final BufferedReader readlowfile =
                 new BufferedReader(new FileReader(LOWSCORE_DAT));

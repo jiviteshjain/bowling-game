@@ -46,9 +46,21 @@ public class highscorefile {
             }
         }
     }
+    public static void checkfile(){
+        try {
+            File myObj = new File("HIGHSCORE.DAT");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
     public static void addScore(final String nick, final Date date, final int score) {
         try{
+            checkfile();
             _addScore(nick, date, score);
         } catch (final Exception e) {
             System.err.println("Exception in addScore. "+ e );
@@ -63,6 +75,7 @@ public class highscorefile {
     public static String getScores(final String nick)
             throws IOException, FileNotFoundException {
 //        Vector scores = new Vector();
+        checkfile();
         String ss="";
         final BufferedReader in =
                 new BufferedReader(new FileReader(HIGHSCORE_DAT));
@@ -82,6 +95,7 @@ public class highscorefile {
 
     public static String getvalues()
             throws IOException, FileNotFoundException {
+        checkfile();
         String ss="";
         final BufferedReader in =
                 new BufferedReader(new FileReader(HIGHSCORE_DAT));
@@ -95,6 +109,7 @@ public class highscorefile {
     public static Vector gethighscores()
             throws IOException, FileNotFoundException {
 //        String ss="";
+        checkfile();
         final Vector ss= new Vector();
         final BufferedReader in =
                 new BufferedReader(new FileReader(HIGHSCORE_DAT));
@@ -108,7 +123,8 @@ public class highscorefile {
     public static Vector gethighoverallscores()
             throws IOException, FileNotFoundException {
         //        String ss="";
-         int max=0;
+        checkfile();
+        int max=0;
         final Vector ss= new Vector();
         final BufferedReader in =
                 new BufferedReader(new FileReader(HIGHSCORE_DAT));
