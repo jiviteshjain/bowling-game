@@ -40,7 +40,6 @@ public class Addhighscoreview implements ListSelectionListener{
         Vector highoverall = new Vector();
 
         highoverall=highscorefile.gethighoverallscores();
-//        Vector final_high=
         highoveralllist=new JList(highoverall);
         highoveralllist.setFixedCellWidth(300);
         highoveralllist.setVisibleRowCount(5);
@@ -50,7 +49,6 @@ public class Addhighscoreview implements ListSelectionListener{
 
         colPanel.add(panel_1);
         colPanel.add(panel_2);
-//        colPanel.add(panel_3);
         win.getContentPane().add("Center", colPanel);
         win.pack();
 

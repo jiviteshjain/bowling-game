@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
@@ -49,7 +48,6 @@ public class Addlowscoreview implements ListSelectionListener{
 
         colPanel.add(panel_1);
        colPanel.add(panel_2);
-//        colPanel.add(panel_3);
         win.getContentPane().add("Center", colPanel);
         win.pack();
 

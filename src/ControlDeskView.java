@@ -14,10 +14,8 @@
  */
 
 import javax.swing.*;
-import javax.swing.border.*;
 
 import java.io.IOException;
-import java.util.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -45,7 +43,6 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	 */
 
 	public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
-//		this.Highscore=highscore;
 		this.controlDesk = controlDesk;
 		this.maxMembers = maxMembers;
 		int numLanes = controlDesk.getNumLanes();
@@ -174,9 +171,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		if (e.getSource().equals(addParty)) {
 			new AddPartyView(this, maxMembers);
 		}
-//		if (e.getSource().equals(assign)) {
-//			controlDesk.assignLane();
-//		}
+
 		if (e.getSource().equals(finished)) {
 			win.hide();
 			controlDesk.saveLanes();

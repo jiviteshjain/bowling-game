@@ -23,21 +23,22 @@ public class highscorefile {
         String ss;
         String val;
         ss=getScores(nick);
-//        String[] high=ss.split("t");
-//        int max_val;
-//        max_val=Integer.parseInt(high[2]);
-//        System.out.println("max"+max_val);
         if(ss.isEmpty()){
-        final RandomAccessFile out = new RandomAccessFile(HIGHSCORE_DAT, "rw");
+            System.out.println("waste");
+
+            final RandomAccessFile out = new RandomAccessFile(HIGHSCORE_DAT, "rw");
         out.skipBytes((int) out.length());
         out.writeBytes(data);
         out.close();}
         else{
-            final String[] scoredata = data.split("\t");
+            final String[] scoredata = ss.split("\t");
             int max_val;
             max_val=Integer.parseInt(scoredata[2].trim());
-//            System.out.println("max"+scoredata[2]);
-            if(score>=max_val) {
+            System.out.println("high");
+            System.out.println(score);
+            System.out.println(max_val);
+
+            if(score>max_val) {
                 val = getvalues();
                 val = val.replaceAll(ss, data);
                 final RandomAccessFile out = new RandomAccessFile(HIGHSCORE_DAT, "rw");
@@ -74,7 +75,6 @@ public class highscorefile {
 
     public static String getScores(final String nick)
             throws IOException, FileNotFoundException {
-//        Vector scores = new Vector();
         checkfile();
         String ss="";
         final BufferedReader in =
@@ -85,7 +85,6 @@ public class highscorefile {
             final String[] scoredata = data.split("\t");
             //"Nick: scoredata[0] Date: scoredata[1] Score: scoredata[2]
             if (nick.equals(scoredata[0])) {
-//                scores.add(new Score(scoredata[0], scoredata[1], scoredata[2]));
                  ss = scoredata[0] + "\t" + scoredata[1] + "\t" + scoredata[2] + "\n";
 
             }
@@ -108,7 +107,6 @@ public class highscorefile {
     }
     public static Vector gethighscores()
             throws IOException, FileNotFoundException {
-//        String ss="";
         checkfile();
         final Vector ss= new Vector();
         final BufferedReader in =
@@ -122,7 +120,6 @@ public class highscorefile {
     }
     public static Vector gethighoverallscores()
             throws IOException, FileNotFoundException {
-        //        String ss="";
         checkfile();
         int max=0;
         final Vector ss= new Vector();

@@ -23,26 +23,24 @@ public class lowscorefile {
         String ss;
         String val;
         ss=getScores(nick);
-//        String[] low=ss.split("t");
-//        int max_val;
-//        max_val=Integer.parseInt(low[2]);
-//        System.out.println("max"+max_val);
         if(ss.isEmpty()){
-        final RandomAccessFile out = new RandomAccessFile(LOWSCORE_DAT, "rw");
-        out.skipBytes((int) out.length());
-        out.writeBytes(data);
-        out.close();}
+        final RandomAccessFile outt = new RandomAccessFile(LOWSCORE_DAT, "rw");
+        outt.skipBytes((int) outt.length());
+        outt.writeBytes(data);
+        outt.close();}
         else{
-            final String[] scoredata = data.split("\t");
+            final String[] scoredata = ss.split("\t");
             int max_val;
             max_val=Integer.parseInt(scoredata[2].trim());
-//            System.out.println("max"+scoredata[2]);
+            System.out.println("low");
+            System.out.println(score);
+            System.out.println(max_val);
             if(score<=max_val) {
                 val = getvalues();
                 val = val.replaceAll(ss, data);
-                final RandomAccessFile out = new RandomAccessFile(LOWSCORE_DAT, "rw");
-                out.writeBytes(val);
-                out.close();
+                final RandomAccessFile outt = new RandomAccessFile(LOWSCORE_DAT, "rw");
+                outt.writeBytes(val);
+                outt.close();
             }
         }
     }
@@ -74,7 +72,6 @@ public class lowscorefile {
 
     public static String getScores(final String nick)
             throws IOException, FileNotFoundException {
-//        Vector scores = new Vector();
         checkfile();
         String ss="";
         final BufferedReader readlowfile =
@@ -85,7 +82,6 @@ public class lowscorefile {
             final String[] scoredata = data.split("\t");
             //"Nick: scoredata[0] Date: scoredata[1] Score: scoredata[2]
             if (nick.equals(scoredata[0])) {
-//                scores.add(new Score(scoredata[0], scoredata[1], scoredata[2]));
                  ss = scoredata[0] + "\t" + scoredata[1] + "\t" + scoredata[2] + "\n";
 
             }
@@ -122,7 +118,6 @@ public class lowscorefile {
     }
     public static Vector getlowoverallscores()
             throws IOException, FileNotFoundException {
-        //        String ss="";
         checkfile();
         int max=10000;
         final Vector ss= new Vector();
@@ -132,7 +127,7 @@ public class lowscorefile {
         while ((data = readlowfile.readLine()) != null) {
              final String[] scoredata = data.split("\t");
             int val=Integer.parseInt(scoredata[2].trim());  
-             if(val <= max){
+             if(val < max){
                 max=val;
                 }
         }

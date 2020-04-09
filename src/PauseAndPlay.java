@@ -242,7 +242,6 @@ public class PauseAndPlay {
             }
 
             lane.setContext(context);
-//            lane.unPauseGame();
         }
     }
 

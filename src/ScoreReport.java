@@ -36,7 +36,6 @@ public class ScoreReport {
 		content += "Final scores for this session: ";
 		content += scores[0];
 		for (int i = 1; i < games; i++){
-//			content += ", " + scores[i];
 			content=addscore(content,scores[i]);
 		}
 

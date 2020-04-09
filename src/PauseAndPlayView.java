@@ -68,21 +68,7 @@ public class PauseAndPlayView implements ActionListener {
         this.window.setAlwaysOnTop(true);
         this.window.setAutoRequestFocus(true);
 
-//        add focus listener
-//        this.window.addWindowFocusListener(new WindowFocusListener() {
-//
-//            @Override
-//            public void windowGainedFocus(WindowEvent windowEvent) {
-//            }
-//
-//            @Override
-//            public void windowLostFocus(WindowEvent windowEvent) {
-//                pauseAndPlay.noop();
-//                windowEvent.getWindow().setVisible(false);
-//            }
-//        });
 
-//        show
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
         this.window.setLocation(
                 ((screenSize.width) / 2) - ((this.window.getSize().width) / 2),
