@@ -215,7 +215,7 @@ public class Lane extends Thread implements PinsetterObserver {
 					
 					if (frameNumber == 9){
 						int score = scoreboard.getCurrentGame(currentThrower).get(Util.FRAMES_PER_GAME-1).score;
-						String nick=currentThrower.getNick();
+						String nick=currentThrower.getNickName();
 						Date date= new Date();
 						ScoreHistoryFile.addScore(nick,date, score);
 						highscorefile.addScore(nick,date, score);
