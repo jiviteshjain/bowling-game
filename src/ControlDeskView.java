@@ -13,13 +13,20 @@
  *
  */
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
 import java.io.IOException;
 import java.util.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
@@ -138,6 +145,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		/* Close program when this window closes */
 		win.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
+				controlDesk.saveLanes();
 				System.exit(0);
 			}
 		});
@@ -171,6 +179,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 //		}
 		if (e.getSource().equals(finished)) {
 			win.hide();
+			controlDesk.saveLanes();
 			System.exit(0);
 
 		}

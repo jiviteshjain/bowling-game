@@ -52,6 +52,7 @@ class ControlDesk extends Thread {
 	/** The collection of subscribers */
 	private Vector subscribers;
 
+	private PauseAndPlay pauseAndPlay;
     /**
      * Constructor for the ControlDesk class
      *
@@ -69,7 +70,9 @@ class ControlDesk extends Thread {
 		for (int i = 0; i < numLanes; i++) {
 			lanes.add(new Lane());
 		}
-		
+
+		pauseAndPlay = new PauseAndPlay(lanes);
+
 		this.start();
 
 	}
@@ -79,6 +82,9 @@ class ControlDesk extends Thread {
 	 * 
 	 */
 	public void run() {
+
+		PauseAndPlayView pauseAndPlayView = new PauseAndPlayView(pauseAndPlay);
+
 		while (true) {
 			
 			assignLane();
@@ -222,5 +228,9 @@ class ControlDesk extends Thread {
 
 	public HashSet getLanes() {
 		return lanes;
+	}
+
+	public void saveLanes() {
+		pauseAndPlay.savePaused();
 	}
 }

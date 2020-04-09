@@ -3,15 +3,22 @@
  *
  */
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class LaneView implements LaneObserver, ActionListener {
 
 	private int roll;
-	private boolean initDone = true;
+	private boolean initDone;
+	private boolean frameInitDone;
 
 	JFrame frame;
 	Container cpanel;
@@ -34,6 +41,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		this.lane = lane;
 
 		initDone = true;
+		frameInitDone = false;
 		frame = new JFrame("Lane " + laneNum + ":");
 		cpanel = frame.getContentPane();
 		cpanel.setLayout(new BorderLayout());
@@ -103,7 +111,7 @@ public class LaneView implements LaneObserver, ActionListener {
 			pins[i] = new JPanel();
 			pins[i].setBorder(
 				BorderFactory.createTitledBorder(
-					((Bowler) bowlers.get(i)).getNick()));
+					((Bowler) bowlers.get(i)).getNickName()));
 			pins[i].setLayout(new GridLayout(0, 10));
 			for (int k = 0; k != 10; k++) {
 				scores[i][k] = new JPanel();
@@ -133,9 +141,11 @@ public class LaneView implements LaneObserver, ActionListener {
 				}
 			}
 
-			if (le.getFrameNum() == 1
-				&& le.getBall() == 0
-				&& le.getIndex() == 0) {
+//			if (le.getFrameNum() == 1
+//				&& le.getBall() == 0
+//				&& le.getIndex() == 0) {
+			if (!frameInitDone || (le.getFrameNum() == 1 && le.getBall() == 0 && le.getIndex() == 0)) {
+				frameInitDone = true;
 				System.out.println("Making the frame.");
 				cpanel.removeAll();
 				cpanel.add(makeFrame(le.getParty()), "Center");

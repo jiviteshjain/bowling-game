@@ -49,4 +49,14 @@ public class Party {
 		return myBowlers;
     }
 
+    public Bowler getBowler(String nick) {
+    	for (Object b: myBowlers) {
+    		Bowler bowler = (Bowler)b;
+    		if (bowler.getNickName().equals(nick)) {
+    			return bowler;
+			}
+		}
+		return null;
+	}
+
 }
