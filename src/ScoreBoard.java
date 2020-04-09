@@ -135,4 +135,15 @@ public class ScoreBoard {
             me.getValue().add(theirScore);
         }
     }
+
+    public HashMap<Bowler, ArrayList<Frame>> getRawCurrentGame() {
+        return Util.copyFrameHashMap(nowPlaying);
+    }
+
+    public void setRaw(HashMap<Bowler, ArrayList<Frame>> nowPlaying, HashMap<Bowler, ArrayList<Integer>> allGames) {
+//        has to match with party
+        this.nowPlaying = Util.copyFrameHashMap(nowPlaying);
+        this.allGames.clear();
+        this.allGames.putAll(allGames);
+    }
 }

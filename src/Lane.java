@@ -215,7 +215,7 @@ public class Lane extends Thread implements PinsetterObserver {
 					
 					if (frameNumber == 9){
 						int score = scoreboard.getCurrentGame(currentThrower).get(Util.FRAMES_PER_GAME-1).score;
-						ScoreHistoryFile.addScore(currentThrower.getNick(), new Date(), score);
+						ScoreHistoryFile.addScore(currentThrower.getNickName(), new Date(), score);
 					}
 
 					
@@ -273,7 +273,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			ScoreReport sr = new ScoreReport(thisBowler, Util.convertIntegers(temp), gameNumber);
 			sr.sendEmail(thisBowler.getEmail());
 			for (Object value : printVector) {
-				if (thisBowler.getNick().equals(value)) {
+				if (thisBowler.getNickName().equals(value)) {
 					sr.sendPrintout();
 				}
 			}
@@ -625,6 +625,10 @@ public class Lane extends Thread implements PinsetterObserver {
 		gameIsHalted = true;
 		publish();
 	}
+
+	public boolean isPaused() {
+		return gameIsHalted;
+	}
 	
 	/**
 	 * Resume the execution of this game
@@ -634,4 +638,36 @@ public class Lane extends Thread implements PinsetterObserver {
 		publish();
 	}
 
+	public HashMap<String, Object> getContext() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		map.put("party", this.party);
+		map.put("scoreboard", this.scoreboard);
+		map.put("bowlIndex", this.bowlIndex);
+		map.put("frameNumber", this.frameNumber);
+		map.put("gameNumber", this.gameNumber);
+
+		return map;
+	}
+
+	public void setContext(HashMap<String, Object> context) {
+		this.gameIsHalted = true; // to prevent race conditions
+		this.party = (Party) context.get("party");
+		this.partyAssigned = true;
+
+		this.scoreboard = (ScoreBoard) context.get("scoreboard");
+
+		this.gameFinished = false;
+
+		this.bowlIndex = (int) context.get("bowlIndex");
+		this.bowlerIterator = (party.getMembers()).iterator();
+		for (int i = 0; i < bowlIndex && bowlerIterator.hasNext(); i++) {
+			bowlerIterator.next();
+		}
+
+		this.frameNumber = (int) context.get("frameNumber");
+		this.gameNumber = (int) context.get("gameNumber");
+
+		this.gameIsHalted = false;
+	}
 }
