@@ -215,7 +215,11 @@ public class Lane extends Thread implements PinsetterObserver {
 					
 					if (frameNumber == 9){
 						int score = scoreboard.getCurrentGame(currentThrower).get(Util.FRAMES_PER_GAME-1).score;
-						ScoreHistoryFile.addScore(currentThrower.getNick(), new Date(), score);
+						String nick=currentThrower.getNick();
+						Date date= new Date();
+						ScoreHistoryFile.addScore(nick,date, score);
+						highscorefile.addScore(nick,date, score);
+						lowscorefile.addScorelow(nick, date, score);
 					}
 
 					
@@ -234,7 +238,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			} else if (partyAssigned && gameFinished) {
 				EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
 				int result = egp.getResult();
-				egp.distroy();
+				egp.destroy();
 
 				scoreboard.saveGame();
 				System.out.println("result was: " + result);

@@ -89,14 +89,11 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 
 		// Center Window on Screen
 		Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-		int val1=getval(screenSize.width,win.getSize().width);
-		int val2=getval(screenSize.height,win.getSize().height);
-		win.setLocation(val1,val2);
+		win.setLocation(
+				((screenSize.width) / 2) - ((win.getSize().width) / 2),
+				((screenSize.height) / 2) - ((win.getSize().height) / 2));
 		win.show();
 
-	}
-	public int getval(int a,int b){
-		return (a-b)/2;
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(printButton)) {		

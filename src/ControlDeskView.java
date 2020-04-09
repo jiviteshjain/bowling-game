@@ -18,11 +18,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import java.io.IOException;
 import java.util.*;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
-	private JButton addParty, finished, assign;
+	private JButton addParty, finished, assign,highscore,lowscore,showrecent;
 	private JFrame win;
 	private JList partyList;
 	
@@ -30,14 +31,14 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	private int maxMembers;
 	
 	private ControlDesk controlDesk;
-
+//	private Highscore highscore;
 	/**
 	 * Displays a GUI representation of the ControlDesk
 	 *
 	 */
 
 	public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
-
+//		this.Highscore=highscore;
 		this.controlDesk = controlDesk;
 		this.maxMembers = maxMembers;
 		int numLanes = controlDesk.getNumLanes();
@@ -67,6 +68,21 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		assign.addActionListener(this);
 		assignPanel.add(assign);
 //		controlsPanel.add(assignPanel);
+
+		highscore=new JButton("Get High Score");
+		JPanel highscorePanel = new JPanel();
+		highscorePanel.setLayout(new FlowLayout());
+		highscore.addActionListener(this);
+		highscorePanel.add(highscore);
+		controlsPanel.add(highscorePanel);
+
+		lowscore=new JButton("Get low Score");
+		JPanel lowscorePanel = new JPanel();
+		lowscorePanel.setLayout(new FlowLayout());
+		lowscore.addActionListener(this);
+		lowscorePanel.add(lowscore);
+		controlsPanel.add(lowscorePanel);
+
 
 		finished = new JButton("Finished");
 		JPanel finishedPanel = new JPanel();
@@ -150,12 +166,27 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		if (e.getSource().equals(addParty)) {
 			new AddPartyView(this, maxMembers);
 		}
-		if (e.getSource().equals(assign)) {
-			controlDesk.assignLane();
-		}
+//		if (e.getSource().equals(assign)) {
+//			controlDesk.assignLane();
+//		}
 		if (e.getSource().equals(finished)) {
 			win.hide();
 			System.exit(0);
+
+		}
+		if(e.getSource().equals(highscore)){
+			try {
+				new Addhighscoreview(this);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		if(e.getSource().equals(lowscore)){
+			try {
+				new Addlowscoreview(this);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
