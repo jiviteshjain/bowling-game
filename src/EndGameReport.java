@@ -13,7 +13,6 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 
 import java.util.*;
-import java.text.*;
 
 public class EndGameReport implements ActionListener, ListSelectionListener {
 
@@ -46,24 +45,22 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		Vector myVector = new Vector();
 		Iterator iter = (party.getMembers()).iterator();
 		while (iter.hasNext()){
-			myVector.add( ((Bowler)iter.next()).getNick() );
+			myVector.add( ((Bowler)iter.next()).getNickName() );
 		}	
 		memberList = new JList(myVector);
 		memberList.setFixedCellWidth(120);
 		memberList.setVisibleRowCount(5);
 		memberList.addListSelectionListener(this);
 		JScrollPane partyPane = new JScrollPane(memberList);
-		//        partyPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		partyPanel.add(partyPane);
 
 		partyPanel.add( memberList );
 
 		// Button Panel
-		// Button Panel
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 1));
 
-		Insets buttonMargin = new Insets(4, 4, 4, 4);
+		new Insets(4, 4, 4, 4);
 
 		printButton = new JButton("Print Report");
 		JPanel printButtonPanel = new JPanel();
@@ -91,12 +88,11 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		// Center Window on Screen
 		Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
 		win.setLocation(
-			((screenSize.width) / 2) - ((win.getSize().width) / 2),
-			((screenSize.height) / 2) - ((win.getSize().height) / 2));
+				((screenSize.width) / 2) - ((win.getSize().width) / 2),
+				((screenSize.height) / 2) - ((win.getSize().height) / 2));
 		win.show();
 
 	}
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(printButton)) {		
 			//Add selected to the vector.

@@ -24,9 +24,12 @@ hs_err_pid*
 
 #Intellij
 .idea/
-.out/
+out/
 *.iml
 codemr/
 
 #VS Code
 .vscode/
+
+# Data Files
+*.DAT

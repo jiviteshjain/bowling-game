@@ -3,15 +3,22 @@
  *
  */
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class LaneView implements LaneObserver, ActionListener {
 
 	private int roll;
-	private boolean initDone = true;
+	private boolean initDone;
+	private boolean frameInitDone;
 
 	JFrame frame;
 	Container cpanel;
@@ -34,6 +41,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		this.lane = lane;
 
 		initDone = true;
+		frameInitDone = false;
 		frame = new JFrame("Lane " + laneNum + ":");
 		cpanel = frame.getContentPane();
 		cpanel.setLayout(new BorderLayout());
@@ -103,7 +111,7 @@ public class LaneView implements LaneObserver, ActionListener {
 			pins[i] = new JPanel();
 			pins[i].setBorder(
 				BorderFactory.createTitledBorder(
-					((Bowler) bowlers.get(i)).getNick()));
+					((Bowler) bowlers.get(i)).getNickName()));
 			pins[i].setLayout(new GridLayout(0, 10));
 			for (int k = 0; k != 10; k++) {
 				scores[i][k] = new JPanel();
@@ -126,16 +134,15 @@ public class LaneView implements LaneObserver, ActionListener {
 		if (lane.isPartyAssigned()) {
 			int numBowlers = le.getParty().getMembers().size();
 			while (!initDone) {
-				//System.out.println("chillin' here.");
 				try {
 					Thread.sleep(1);
 				} catch (Exception e) {
 				}
 			}
 
-			if (le.getFrameNum() == 1
-				&& le.getBall() == 0
-				&& le.getIndex() == 0) {
+
+			if (!frameInitDone || (le.getFrameNum() == 1 && le.getBall() == 0 && le.getIndex() == 0)) {
+				frameInitDone = true;
 				System.out.println("Making the frame.");
 				cpanel.removeAll();
 				cpanel.add(makeFrame(le.getParty()), "Center");
@@ -160,42 +167,28 @@ public class LaneView implements LaneObserver, ActionListener {
 
 			}
 
-			int[][] lescores = le.getCumulScore();
-			for (int k = 0; k < numBowlers; k++) {
-				for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-					if (lescores[k][i] != 0)
-						scoreLabel[k][i].setText(
-							(new Integer(lescores[k][i])).toString());
-				}
-				for (int i = 0; i < 21; i++) {
-					if (((int[]) ((HashMap) le.getScore())
-						.get(bowlers.get(k)))[i]
-						!= -1)
-						if (((int[]) ((HashMap) le.getScore())
-							.get(bowlers.get(k)))[i]
-							== 10
-							&& (i % 2 == 0 || i == 19))
-							ballLabel[k][i].setText("X");
-						else if (
-							i > 0
-								&& ((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]
-									+ ((int[]) ((HashMap) le.getScore())
-										.get(bowlers.get(k)))[i
-									- 1]
-									== 10
-								&& i % 2 == 1)
-							ballLabel[k][i].setText("/");
-						else if ( ((int[])((HashMap) le.getScore()).get(bowlers.get(k)))[i] == -2 ){
-							
-							ballLabel[k][i].setText("F");
-						} else
-							ballLabel[k][i].setText(
-								(new Integer(((int[]) ((HashMap) le.getScore())
-									.get(bowlers.get(k)))[i]))
-									.toString());
+			HashMap<Bowler, ArrayList<Frame>> allScores = le.getScore();
+			for (int b = 0; b < numBowlers; b++) {
+				Bowler bowler = (Bowler) bowlers.get(b);
+				ArrayList<Frame> bowlerScores = allScores.get(bowler);
+				for (int f = 0; f < le.getFrameNum(); f++) {
+					Frame frame = bowlerScores.get(f);
+					scoreLabel[b][f].setText(String.valueOf(frame.score));
+					if (frame.isStrike()) {
+						ballLabel[b][2*f].setText("X");
+						ballLabel[b][2*f+1].setText("");
+					} else if (frame.isSpare()) {
+						ballLabel[b][2*f].setText(String.valueOf(frame.thro[0]));
+						ballLabel[b][2*f+1].setText("/");
+					} else {
+						ballLabel[b][2*f].setText(String.valueOf(frame.thro[0]));
+						ballLabel[b][2*f + 1].setText(String.valueOf(frame.thro[1]));
+					}
+
 				}
 			}
+
+
 
 		}
 	}

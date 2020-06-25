@@ -62,13 +62,13 @@ public class PinsetterEvent {
 	 */
 	public int totalPinsDown() {
 		int count = 0;
-		
+
 		for (int i=0; i <= 9; i++) {
 			if (pinKnockedDown(i)) {
 				count++;
 			}
 		}
-		
+
 		return count;
 	}
 	

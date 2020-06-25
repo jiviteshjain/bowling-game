@@ -13,17 +13,22 @@
  *
  */
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
 
-import java.util.*;
+import java.io.IOException;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
-	private JButton addParty, finished, assign;
+	private JButton addParty, finished, assign,highscore,lowscore,showrecent;
 	private JFrame win;
 	private JList partyList;
 	
@@ -31,14 +36,13 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	private int maxMembers;
 	
 	private ControlDesk controlDesk;
-
+//	private Highscore highscore;
 	/**
 	 * Displays a GUI representation of the ControlDesk
 	 *
 	 */
 
 	public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
-
 		this.controlDesk = controlDesk;
 		this.maxMembers = maxMembers;
 		int numLanes = controlDesk.getNumLanes();
@@ -68,6 +72,21 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		assign.addActionListener(this);
 		assignPanel.add(assign);
 //		controlsPanel.add(assignPanel);
+
+		highscore=new JButton("Get High Score");
+		JPanel highscorePanel = new JPanel();
+		highscorePanel.setLayout(new FlowLayout());
+		highscore.addActionListener(this);
+		highscorePanel.add(highscore);
+		controlsPanel.add(highscorePanel);
+
+		lowscore=new JButton("Get low Score");
+		JPanel lowscorePanel = new JPanel();
+		lowscorePanel.setLayout(new FlowLayout());
+		lowscore.addActionListener(this);
+		lowscorePanel.add(lowscore);
+		controlsPanel.add(lowscorePanel);
+
 
 		finished = new JButton("Finished");
 		JPanel finishedPanel = new JPanel();
@@ -123,18 +142,23 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		/* Close program when this window closes */
 		win.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
+				controlDesk.saveLanes();
 				System.exit(0);
 			}
 		});
 
 		// Center Window on Screen
 		Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-		win.setLocation(
-			((screenSize.width) / 2) - ((win.getSize().width) / 2),
-			((screenSize.height) / 2) - ((win.getSize().height) / 2));
+		int val1=getval(screenSize.width,win.getSize().width);
+		int val2=getval(screenSize.height,win.getSize().height);
+		win.setLocation(val1,val2);
 		win.show();
 
 	}
+	public int getval(int a,int b){
+		return (a-b)/2;
+	}
+
 
 	/**
 	 * Handler for actionEvents
@@ -145,14 +169,28 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(addParty)) {
-			AddPartyView addPartyWin = new AddPartyView(this, maxMembers);
+			new AddPartyView(this, maxMembers);
 		}
-		if (e.getSource().equals(assign)) {
-			controlDesk.assignLane();
-		}
+
 		if (e.getSource().equals(finished)) {
 			win.hide();
+			controlDesk.saveLanes();
 			System.exit(0);
+
+		}
+		if(e.getSource().equals(highscore)){
+			try {
+				new Addhighscoreview(this);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		if(e.getSource().equals(lowscore)){
+			try {
+				new Addlowscoreview(this);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
